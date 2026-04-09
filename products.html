@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BI TOYS | Product Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .fade-in-scale {
+      animation: fadeInScale 0.8s ease-out forwards;
+    }
+    /* Smooth transition for mobile menu */
+    #mobile-menu {
+      transition: all 0.3s ease-in-out;
+    }
+    /* Fixed background to prevent white bars on mobile scroll */
+    .bg-fixed-custom {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-gray-900 font-sans overflow-x-hidden pt-20 pb-10">
+
+  <img src="peakpx.jpg" class="bg-fixed-custom" alt="Background" />
+  <div class="fixed inset-0 bg-black/40 z-0"></div>
+
+  <header class="fixed top-0 w-full z-50 backdrop-blur-md bg-black/10 border-b border-white/10">
+    <div class="mx-auto flex items-center justify-between py-4 px-6 max-w-7xl">
+      <a href="index.html" class="text-2xl font-black text-white tracking-tight">JTS GARAGE</a>
+      
+      <button id="menu-toggle" class="sm:hidden text-white focus:outline-none">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+      <nav class="hidden sm:flex">
+        <ul class="flex gap-x-8">
+          <li><a href="index.html" class="text-white hover:text-sky-400 transition text-xs font-bold">HOME</a></li>
+          <li><a href="toys.html" class="text-white hover:text-sky-400 transition text-xs font-bold">MINI GAMES</a></li>
+          <li><a href="products.html" class="text-white hover:text-sky-400 transition text-xs font-bold">PRODUCTS</a></li>
+          <li><a href="contact.html" class="text-white hover:text-sky-400 transition text-xs font-bold">ORDER ONLINE</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div id="mobile-menu" class="hidden sm:hidden bg-black/95 backdrop-blur-2xl border-b border-white/10 p-6">
+      <ul class="flex flex-col gap-y-4 text-center">
+        <li><a href="index.html" class="text-white text-sm font-bold block py-2 border-b border-white/5 uppercase">Home</a></li>
+        <li><a href="toys.html" class="text-white text-sm font-bold block py-2 border-b border-white/5 uppercase">Mini Games</a></li>
+        <li><a href="products.html" class="text-white text-sm font-bold block py-2 border-b border-white/5 uppercase">Products</a></li>
+        <li><a href="contact.html" class="text-white text-sm font-bold block py-2 uppercase">Order Online</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="relative z-10 fade-in-scale bg-white/10 backdrop-blur-2xl p-4 sm:p-10 rounded-[1.5rem] sm:rounded-[2rem] shadow-2xl max-w-6xl w-full mx-auto border border-white/20 mt-4 mb-10">
+    
+    <div class="text-center mb-8">
+      <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-widest">Full Collection</h2>
+      <div class="h-1 w-20 bg-sky-500 mx-auto mt-2"></div>
+    </div>
+    
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+      
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/mirror2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">STREET KING SIDE MIRROR</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/shock.jfif" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">KYTA FRONT SHOCK</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/seat.jfif" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">INDO SEAT COVER</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/pipe.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">TRC POWER PIPE CLICK</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/rearshock.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">PZTECH REARSHOCK</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/biled.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">BILED PCX 160</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/vella.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">BOM X VELLA</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/lynx.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">BOM X LYNX</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/rcs.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">RCS BREAK LEVER</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/rcb.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">RCB E-3 BREAK LEVER</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/mirror.jfif" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">XLR8 SIDE MIRROR</div>
+      </div>
+
+      <div class="group bg-red-500 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-transform duration-300 hover:-translate-y-2">
+        <div class="h-40 sm:h-64 w-full overflow-hidden bg-white">
+          <img src="images/caliper.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="p-3 sm:p-4 text-white text-center font-bold uppercase tracking-wider text-[10px] sm:text-base">4 POT BREMBO CALIPERS</div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Handle Mobile Menu Toggle
+    const toggleBtn = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    toggleBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

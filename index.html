@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BI TOYS | About Motorcycle Parts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .fade-in-scale {
+      animation: fadeInScale 0.8s ease-out forwards;
+    }
+    /* Smooth transition for mobile menu */
+    #mobile-menu {
+      transition: all 0.3s ease-in-out;
+      max-height: 0;
+      overflow: hidden;
+    }
+    #mobile-menu.open {
+      max-height: 300px;
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-gray-900 flex items-center justify-center font-sans overflow-x-hidden p-4">
+
+  <img src="peakpx.jpg" class="absolute inset-0 w-full h-full object-cover z-0" alt="Background" />
+  <div class="absolute inset-0 bg-black/50 z-0"></div>
+
+  <header class="absolute top-0 w-full z-20 backdrop-blur-md bg-black/20 border-b border-white/10">
+    <div class="mx-auto flex items-center justify-between py-4 px-6 max-w-7xl">
+      <a href="#" class="text-xl sm:text-2xl font-black text-white tracking-tight">JTS GARAGE</a>
+      
+      <button id="menu-btn" class="sm:hidden text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+      </button>
+
+      <nav class="hidden sm:flex">
+        <ul class="flex gap-x-8">
+          <li><a href="index.html" class="text-white hover:text-sky-400 transition text-xs font-bold uppercase">Home</a></li>
+          <li><a href="toys.html" class="text-white hover:text-sky-400 transition text-xs font-bold uppercase">Mini Games</a></li>
+          <li><a href="products.html" class="text-white hover:text-sky-400 transition text-xs font-bold uppercase">Products</a></li>
+          <li><a href="contact.html" class="text-white hover:text-sky-400 transition text-xs font-bold uppercase">Order Online</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav id="mobile-menu" class="sm:hidden px-6 bg-black/40 backdrop-blur-lg">
+      <ul class="flex flex-col gap-y-4">
+        <li><a href="index.html" class="text-white text-sm font-bold uppercase block border-b border-white/5 pb-2">Home</a></li>
+        <li><a href="toys.html" class="text-white text-sm font-bold uppercase block border-b border-white/5 pb-2">Mini Games</a></li>
+        <li><a href="products.html" class="text-white text-sm font-bold uppercase block border-b border-white/5 pb-2">Products</a></li>
+        <li><a href="contact.html" class="text-white text-sm font-bold uppercase block">Order Online</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="z-10 fade-in-scale bg-white/10 backdrop-blur-2xl p-6 sm:p-12 rounded-[1.5rem] sm:rounded-[2rem] shadow-2xl max-w-4xl w-full border border-white/20 mt-16 sm:mt-0">
+    
+    <div class="flex flex-col md:flex-row gap-8 items-center">
+      
+      <div class="w-full md:w-1/2">
+        <div class="rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border-4 border-red-500/50">
+           <img src="images/LOGO.png" alt="Motorcycle Parts" class="w-full h-auto object-cover mx-auto">
+        </div>
+      </div>
+
+      <div class="w-full md:w-1/2 text-white text-center md:text-left">
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-widest mb-2 sm:mb-4">JTS GARAGE</h2>
+        <div class="h-1 w-16 bg-sky-500 mx-auto md:mx-0 mb-6"></div>
+        
+        <p class="text-gray-200 font-semibold mb-4 text-sm sm:text-base">
+          We Offer:
+        </p>
+        
+        <ul class="space-y-3 text-xs sm:text-sm text-white font-bold uppercase tracking-tighter">
+          <li class="flex items-center justify-center md:justify-start gap-2">
+            <span class="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></span> FULL PMS
+          </li>
+          <li class="flex items-center justify-center md:justify-start gap-2">
+            <span class="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></span> LABOR FOR PARTS AND ACCECORIES
+          </li>
+          <li class="flex items-center justify-center md:justify-start gap-2">
+            <span class="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></span> REMAPPING AND BOLT ON PACKAGE
+          </li>
+          <li class="flex items-center justify-center md:justify-start gap-2">
+            <span class="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></span> TUNING
+          </li>
+          <li class="flex items-center justify-center md:justify-start gap-2">
+            <span class="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></span> MAGIC LOWERED
+          </li>
+        </ul>
+
+        <p class="mt-8 text-gray-300 text-[10px] sm:text-xs italic leading-relaxed">
+          High-quality parts not only improve the aesthetics of your bike but also significantly enhance safety and longevity on the road.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Toggle Mobile Menu
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

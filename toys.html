@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BI TOYS | JTS Motor Racer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .fade-in-scale { animation: fadeInScale 0.8s ease-out forwards; }
+    
+    #game-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: 600px;
+      margin: 0 auto;
+      border: 8px solid #333;
+      border-radius: 15px;
+      overflow: hidden;
+      background: #d2b48c; /* Sandy background */
+      touch-action: none; /* Prevents scrolling while playing */
+    }
+    canvas { display: block; background: #c2a378; width: 100%; height: 100%; }
+    .game-ui {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      font-family: 'Arial Black', sans-serif;
+      text-shadow: 2px 2px 0 #000;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .start-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      z-index: 30;
+      text-align: center;
+      padding: 20px;
+    }
+    /* Mobile Touch Controls */
+    .touch-controls {
+      display: none;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 400px;
+      margin-top: 10px;
+      gap: 10px;
+    }
+    @media (max-width: 768px) {
+      .touch-controls { display: flex; }
+      #game-container { height: 70vh; }
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-gray-900 flex flex-col items-center justify-start font-sans overflow-x-hidden">
+
+  <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+  <header class="absolute top-0 w-full z-50 backdrop-blur-md bg-black/10 border-b border-white/10">
+    <div class="mx-auto flex items-center justify-between py-4 px-6 max-w-7xl">
+      <a href="" class="text-2xl font-black text-white tracking-tight">JTS GARAGE</a>
+      
+      <button id="menu-toggle" class="sm:hidden text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+      </button>
+
+      <nav id="nav-menu" class="hidden sm:flex">
+        <ul class="flex flex-col sm:flex-row gap-x-8 gap-y-4 absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-black/90 sm:bg-transparent p-6 sm:p-0">
+          <li><a href="index.html" class="text-white hover:text-sky-400 transition text-xs font-bold block">Home</a></li>
+          <li><a href="toys.html" class="text-white hover:text-sky-400 transition text-xs font-bold block">Mini Games</a></li>
+          <li><a href="products.html" class="text-white hover:text-sky-400 transition text-xs font-bold block">Products</a></li>
+          <li><a href="contact.html" class="text-white hover:text-sky-400 transition text-xs font-bold block">ORDER ONLINE</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="z-10 fade-in-scale bg-white/10 backdrop-blur-2xl p-4 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] shadow-2xl max-w-4xl w-full mx-4 border border-white/20 mb-8 mt-24" id="section1">
+    <div class="flex flex-col md:flex-row gap-8 items-center">
+      <div class="w-full md:w-1/2 text-white text-center md:text-left">
+        <h2 class="text-3xl font-black uppercase tracking-widest mb-4">JTS RACER</h2>
+        <p class="text-gray-200 mb-4 text-sm sm:text-base">Use <b>Arrows/WASD</b> or <b>On-Screen Buttons</b> to move. Avoid other riders and collect coins!</p>
+        <button onclick="startGame()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 mb-4">START ENGINE</button>
+      </div>
+      
+      <div class="w-full md:w-1/2 flex flex-col items-center" id="section2">
+        <div id="game-container">
+          <div id="start-screen" class="start-overlay">
+            <h1 class="text-4xl font-black mb-4 uppercase">Ready?</h1>
+            <p class="mb-6">Avoid obstacles & Collect Coins</p>
+            <p class="text-xs animate-pulse">TAP START ENGINE ABOVE</p>
+          </div>
+          <div class="game-ui">
+            <div>COINS: <span id="score-val">0</span></div>
+            <div class="w-24 h-4 bg-gray-700 border border-white mt-1">
+                <div id="fuel-bar" class="h-full bg-yellow-400" style="width: 100%"></div>
+            </div>
+          </div>
+          <canvas id="gameCanvas" width="400" height="600"></canvas>
+        </div>
+
+        <div class="touch-controls">
+          <button id="btn-left" class="bg-white/20 hover:bg-white/40 text-white p-6 rounded-xl flex-1 font-bold text-2xl select-none">◀</button>
+          <button id="btn-right" class="bg-white/20 hover:bg-white/40 text-white p-6 rounded-xl flex-1 font-bold text-2xl select-none">▶</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score-val');
+    const fuelBar = document.getElementById('fuel-bar');
+    const startScreen = document.getElementById('start-screen');
+    const navMenu = document.getElementById('nav-menu');
+    const menuToggle = document.getElementById('menu-toggle');
+
+    // Toggle Mobile Nav
+    menuToggle.onclick = () => navMenu.classList.toggle('hidden');
+
+    let gameActive = false;
+    let score = 0;
+    let fuel = 100;
+    let speed = 5;
+    let roadOffset = 0;
+
+    const player = {
+      x: 175,
+      y: 480,
+      w: 50,
+      h: 80,
+      color: '#ff0000'
+    };
+
+    let entities = [];
+    const keys = {};
+
+    // Input Listeners
+    window.addEventListener('keydown', e => keys[e.code] = true);
+    window.addEventListener('keyup', e => keys[e.code] = false);
+
+    // Touch Support
+    const btnLeft = document.getElementById('btn-left');
+    const btnRight = document.getElementById('btn-right');
+
+    btnLeft.ontouchstart = (e) => { e.preventDefault(); keys['ArrowLeft'] = true; };
+    btnLeft.ontouchend = () => keys['ArrowLeft'] = false;
+    btnRight.ontouchstart = (e) => { e.preventDefault(); keys['ArrowRight'] = true; };
+    btnRight.ontouchend = () => keys['ArrowRight'] = false;
+
+    // Mouse clicks for desktop testing of buttons
+    btnLeft.onmousedown = () => keys['ArrowLeft'] = true;
+    btnLeft.onmouseup = () => keys['ArrowLeft'] = false;
+    btnRight.onmousedown = () => keys['ArrowRight'] = true;
+    btnRight.onmouseup = () => keys['ArrowRight'] = false;
+
+    function spawnEntity() {
+      if(!gameActive) return;
+      const types = ['coin', 'enemy', 'fuel', 'obstacle'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      const x = 80 + Math.random() * 240;
+      
+      entities.push({
+        x, y: -100,
+        w: type === 'coin' ? 20 : 45,
+        h: type === 'coin' ? 20 : 75,
+        type: type,
+        speed: type === 'enemy' ? speed + 1 : speed,
+        color: type === 'enemy' ? '#3b82f6' : (type === 'fuel' ? '#ef4444' : '#fbbf24')
+      });
+      
+      setTimeout(spawnEntity, 1200 - (speed * 50));
+    }
+
+    function drawBike(x, y, color, isPlayer) {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.roundRect(x + 10, y, 30, 70, 15);
+      ctx.fill();
+      ctx.fillStyle = '#222';
+      ctx.beginPath();
+      ctx.ellipse(x + 25, y + 35, 8, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x+15, y+5, 20, 10);
+      if(isPlayer && (keys['ArrowLeft'] || keys['KeyA'] || keys['ArrowRight'] || keys['KeyD'])) {
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.moveTo(x + 20, y + 70);
+        ctx.lineTo(x + 25, y + 90);
+        ctx.lineTo(x + 30, y + 70);
+        ctx.fill();
+      }
+    }
+
+    function update() {
+      if(!gameActive) return;
+
+      if ((keys['ArrowLeft'] || keys['KeyA']) && player.x > 70) player.x -= 7;
+      if ((keys['ArrowRight'] || keys['KeyD']) && player.x < 280) player.x += 7;
+
+      roadOffset = (roadOffset + speed) % 100;
+      fuel -= 0.05;
+      fuelBar.style.width = fuel + '%';
+      if(fuel <= 0) gameOver();
+
+      entities.forEach((ent, index) => {
+        ent.y += ent.speed;
+        if (player.x < ent.x + ent.w && player.x + player.w > ent.x &&
+            player.y < ent.y + ent.h && player.y + player.h > ent.y) {
+          if(ent.type === 'coin') {
+            score += 10;
+            scoreEl.innerText = score;
+            entities.splice(index, 1);
+          } else if(ent.type === 'fuel') {
+            fuel = Math.min(100, fuel + 20);
+            entities.splice(index, 1);
+          } else {
+            gameOver();
+          }
+        }
+        if(ent.y > 700) entities.splice(index, 1);
+      });
+      speed += 0.001;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#999';
+      ctx.fillRect(70, 0, 260, 600);
+      ctx.strokeStyle = '#fff';
+      ctx.setLineDash([40, 40]);
+      ctx.lineDashOffset = -roadOffset;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(200, -100);
+      ctx.lineTo(200, 700);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      entities.forEach(ent => {
+        if(ent.type === 'coin') {
+          ctx.fillStyle = '#fbbf24';
+          ctx.beginPath();
+          ctx.arc(ent.x + 10, ent.y + 10, 10, 0, Math.PI*2);
+          ctx.fill();
+          ctx.strokeStyle = '#d97706';
+          ctx.stroke();
+        } else if(ent.type === 'fuel') {
+          ctx.fillStyle = '#ef4444';
+          ctx.fillRect(ent.x, ent.y, 30, 40);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(ent.x + 5, ent.y + 15, 20, 5);
+        } else if(ent.type === 'obstacle') {
+            ctx.fillStyle = '#831a1a';
+            ctx.beginPath();
+            ctx.roundRect(ent.x, ent.y, 40, 40, 10);
+            ctx.fill();
+        } else {
+          drawBike(ent.x, ent.y, ent.color, false);
+        }
+      });
+
+      drawBike(player.x, player.y, player.color, true);
+
+      if(gameActive) requestAnimationFrame(() => {
+        update();
+        draw();
+      });
+    }
+
+    function startGame() {
+      if(gameActive) return;
+      score = 0;
+      fuel = 100;
+      speed = 5;
+      entities = [];
+      player.x = 175;
+      gameActive = true;
+      scoreEl.innerText = "0";
+      startScreen.style.display = 'none';
+      spawnEntity();
+      draw();
+    }
+
+    function gameOver() {
+      gameActive = false;
+      startScreen.style.display = 'flex';
+      startScreen.innerHTML = `<h1 class="text-4xl font-black mb-2 uppercase">Crashed!</h1><p class="text-xl">Score: ${score}</p><p class="mt-4 text-xs">TAP START ENGINE TO RETRY</p>`;
+    }
+  </script>
+</body>
+</html>
